@@ -1,0 +1,194 @@
+
+.perfil-container {
+    width: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+/* Encabezado del usuario */
+.perfil-user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    margin-bottom: 25px;
+    border-left: 5px solid #1e3a8a;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+}
+
+.perfil-avatar {
+    width: 75px;
+    height: 75px;
+    min-width: 75px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1e3a8a;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.perfil-user-info h1 {
+    color: #172554;
+    margin: 0 0 5px;
+    font-size: 24px;
+}
+
+.perfil-user-info p {
+    color: #64748b;
+    margin: 0 0 10px;
+}
+
+.estado-activo,
+.estado-inactivo {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.estado-activo {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.estado-inactivo {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Información personal */
+.perfil-information {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+}
+
+.perfil-information h2,
+.perfil-resumen h2 {
+    color: #172554;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.perfil-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 17px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.perfil-field:last-child {
+    border-bottom: none;
+}
+
+.perfil-field span {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.perfil-field strong {
+    color: #334155;
+    font-size: 14px;
+    text-align: right;
+}
+
+/* Resumen laboral */
+.perfil-resumen {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+}
+
+.perfil-resumen-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.perfil-resumen-card {
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.perfil-resumen-card h3 {
+    font-size: 15px;
+    margin: 12px 0;
+}
+
+.perfil-resumen-icono {
+    font-size: 25px;
+}
+
+.perfil-number {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.perfil-resumen-card > span {
+    font-size: 12px;
+}
+
+/* Tarjeta azul: vacaciones */
+.vacaciones {
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+}
+
+.vacaciones h3,
+.vacaciones .perfil-resumen-icono,
+.vacaciones .perfil-number {
+    color: #1d4ed8;
+}
+
+.vacaciones > span {
+    color: #64748b;
+}
+
+/* Tarjeta roja: antigüedad */
+.antiguedad {
+    background: #fef2f2;
+    border-left: 4px solid #dc2626;
+}
+
+.antiguedad h3,
+.antiguedad .perfil-resumen-icono,
+.antiguedad .perfil-number {
+    color: #b91c1c;
+}
+
+.antiguedad > span {
+    color: #64748b;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 700px) {
+    .perfil-container {
+        padding: 15px;
+    }
+
+    .perfil-resumen-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-field {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .perfil-field strong {
+        text-align: left;
+    }
+}
