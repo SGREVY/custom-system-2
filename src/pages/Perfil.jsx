@@ -13,8 +13,8 @@ function Perfil({ usuario }) {
         async function cargarPerfil() {
             try {
                 const response = await fetch(
-                    `http://localhost:5202/api/perfil/${usuario.id}`
-                );
+    `https://custom-backend-cxj5.onrender.com/api/perfil/${usuario.id}`
+);
 
                 if (!response.ok) {
                     throw new Error("No se pudo obtener el perfil");
