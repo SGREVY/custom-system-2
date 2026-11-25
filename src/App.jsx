@@ -5,6 +5,8 @@ import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Perfil from "./pages/Perfil";
 import Calendario from "./pages/Calendario";
+import Vacaciones from "./pages/Vacaciones";
+import RecursosHumanos from "./pages/RecursosHumanos";
 
 function App() {
 
@@ -22,12 +24,22 @@ function App() {
     const [cargandoEmpleado, setCargandoEmpleado] = useState(false);
     const [errorEmpleado, setErrorEmpleado] = useState("");
 
-    // Sección actual del ERP
+    // Sección actual
     const [seccion, setSeccion] = useState("inicio");
 
     // Cambiar sección
     function cambiarSeccion(nuevaSeccion) {
         setSeccion(nuevaSeccion);
+    }
+
+    // Cerrar sesión
+    function cerrarSesion() {
+        setUsuario(null);
+        setEmpleado(null);
+        setSeccion("inicio");
+        setCorreo("");
+        setContrasena("");
+        setError("");
     }
 
     // Iniciar sesión
@@ -60,6 +72,7 @@ function App() {
             const data = await response.json();
 
             setUsuario(data);
+            setEmpleado(null);
             setSeccion("inicio");
             setContrasena("");
 
@@ -72,13 +85,22 @@ function App() {
         }
     }
 
-    // Obtener información del empleado
+    // Cargar información del empleado
     useEffect(() => {
 
-        if (!usuario) return;
+        if (!usuario) {
+            setEmpleado(null);
+            return;
+        }
+
+        // RH no necesita perfil de empleado
+        if (usuario.rol === "RH") {
+            setEmpleado(null);
+            setCargandoEmpleado(false);
+            return;
+        }
 
         async function cargarEmpleado() {
-
             setCargandoEmpleado(true);
             setErrorEmpleado("");
 
@@ -92,7 +114,6 @@ function App() {
                 }
 
                 const data = await response.json();
-
                 setEmpleado(data);
 
             } catch (error) {
@@ -108,34 +129,80 @@ function App() {
 
     }, [usuario]);
 
-    // Si el usuario inició sesión, mostrar ERP
+    // ==========================================
+    // PANEL DEL ERP
+    // ==========================================
+
     if (usuario) {
+
+        const esRH = usuario.rol === "RH";
+
         return (
             <div className="app-layout">
 
-                <Sidebar onNavigate={cambiarSeccion} />
+                <Sidebar
+                    onNavigate={cambiarSeccion}
+                    rol={usuario.rol}
+                    cerrarSesion={cerrarSesion}
+                />
 
                 <main className="dashboard">
 
+                    {/* INICIO */}
                     {seccion === "inicio" && (
                         <div>
-                            <h1>Bienvenido, {usuario.nombre}</h1>
-                            <p>Bienvenido a Ñustom Ñystem.</p>
+                            <h1>
+                                Bienvenido, {usuario.nombre}
+                            </h1>
+
+                            {esRH ? (
+                                <p>
+                                    Panel de Recursos Humanos de Ñustom Ñystem.
+                                </p>
+                            ) : (
+                                <p>
+                                    Bienvenido a Ñustom Ñystem.
+                                </p>
+                            )}
                         </div>
                     )}
 
-                    {seccion === "perfil" && (
+                    {/* PERFIL DEL EMPLEADO */}
+                    {seccion === "perfil" && !esRH && (
                         <Perfil usuario={usuario} />
                     )}
 
+                    {/* CALENDARIO */}
                     {seccion === "calendario" && (
-                        cargandoEmpleado
-                            ? <p>Cargando información del empleado...</p>
-                            : errorEmpleado
-                                ? <p>{errorEmpleado}</p>
-                                : empleado
-                                    ? <Calendario empleado={empleado} />
-                                    : <p>No se encontró el empleado.</p>
+                        esRH ? (
+                            <div>
+                                <h1>Calendario general</h1>
+                                <p>
+                                    Consulta los horarios y vacaciones de los empleados.
+                                </p>
+                            </div>
+                        ) : (
+                            cargandoEmpleado
+                                ? <p>Cargando información del empleado...</p>
+                                : errorEmpleado
+                                    ? <p>{errorEmpleado}</p>
+                                    : empleado
+                                        ? <Calendario empleado={empleado} />
+                                        : <p>No se encontró el empleado.</p>
+                        )
+                    )}
+
+                    {/* VACACIONES DEL EMPLEADO */}
+                    {seccion === "vacaciones" && !esRH && (
+                        <Vacaciones
+                            usuario={usuario}
+                            empleado={empleado}
+                        />
+                    )}
+
+                    {/* ADMINISTRACIÓN DE RH */}
+                    {seccion === "solicitudes" && esRH && (
+                        <RecursosHumanos usuario={usuario} />
                     )}
 
                 </main>
@@ -144,7 +211,10 @@ function App() {
         );
     }
 
-    // Pantalla de inicio de sesión
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
     return (
         <div className="login-container">
 
@@ -176,7 +246,9 @@ function App() {
                     />
 
                     {error && (
-                        <p style={{ color: "red" }}>{error}</p>
+                        <p style={{ color: "red" }}>
+                            {error}
+                        </p>
                     )}
 
                     <button type="submit" disabled={cargando}>
