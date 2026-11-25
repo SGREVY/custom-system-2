@@ -1,0 +1,130 @@
+
+.calendario-container {
+    padding: 25px;
+    width: 100%;
+}
+
+.calendario-controles {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 25px 0;
+}
+
+.calendario-controles button {
+    padding: 9px 18px;
+    border: none;
+    border-radius: 6px;
+    background: #1e293b;
+    color: white;
+    cursor: pointer;
+}
+
+.calendario-leyenda {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 18px;
+    font-size: 13px;
+}
+
+.calendario-leyenda span {
+    padding: 6px 10px;
+    border-radius: 5px;
+}
+
+.leyenda-descanso {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.leyenda-guardia {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.leyenda-vacaciones {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.calendario-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    border-top: 1px solid #e2e8f0;
+    border-left: 1px solid #e2e8f0;
+}
+
+.calendario-dia-nombre {
+    padding: 12px 5px;
+    text-align: center;
+    font-weight: bold;
+    background: #f1f5f9;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.calendario-celda {
+    min-height: 115px;
+    padding: 8px;
+    background: white;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.numero-dia {
+    display: block;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+.eventos-dia {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.evento {
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 11px;
+    overflow-wrap: anywhere;
+}
+
+.evento-descanso {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.evento-guardia {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.evento-vacaciones {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.calendario-empleados {
+    margin-top: 25px;
+}
+
+@media (max-width: 700px) {
+    .calendario-container {
+        padding: 10px;
+    }
+
+    .calendario-celda {
+        min-height: 90px;
+        padding: 4px;
+    }
+
+    .calendario-dia-nombre {
+        font-size: 11px;
+    }
+
+    .evento {
+        font-size: 9px;
+        padding: 3px;
+    }
+}

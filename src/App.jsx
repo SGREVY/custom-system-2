@@ -1,10 +1,13 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+
 import Sidebar from "./components/Sidebar";
 import Perfil from "./pages/Perfil";
+import Calendario from "./pages/Calendario";
 
 function App() {
+
     // Datos del inicio de sesión
     const [correo, setCorreo] = useState("");
     const [contrasena, setContrasena] = useState("");
@@ -14,12 +17,16 @@ function App() {
     // Usuario autenticado
     const [usuario, setUsuario] = useState(null);
 
+    // Información del empleado
+    const [empleado, setEmpleado] = useState(null);
+    const [cargandoEmpleado, setCargandoEmpleado] = useState(false);
+    const [errorEmpleado, setErrorEmpleado] = useState("");
+
     // Sección actual del ERP
     const [seccion, setSeccion] = useState("inicio");
 
     // Cambiar sección
     function cambiarSeccion(nuevaSeccion) {
-        console.log("Cambiando sección a:", nuevaSeccion);
         setSeccion(nuevaSeccion);
     }
 
@@ -65,6 +72,42 @@ function App() {
         }
     }
 
+    // Obtener información del empleado
+    useEffect(() => {
+
+        if (!usuario) return;
+
+        async function cargarEmpleado() {
+
+            setCargandoEmpleado(true);
+            setErrorEmpleado("");
+
+            try {
+                const response = await fetch(
+                    `https://custom-backend-cxj5.onrender.com/api/perfil/${usuario.id}`
+                );
+
+                if (!response.ok) {
+                    throw new Error("No se pudo obtener el perfil del empleado");
+                }
+
+                const data = await response.json();
+
+                setEmpleado(data);
+
+            } catch (error) {
+                console.error(error);
+                setErrorEmpleado(error.message);
+
+            } finally {
+                setCargandoEmpleado(false);
+            }
+        }
+
+        cargarEmpleado();
+
+    }, [usuario]);
+
     // Si el usuario inició sesión, mostrar ERP
     if (usuario) {
         return (
@@ -83,6 +126,16 @@ function App() {
 
                     {seccion === "perfil" && (
                         <Perfil usuario={usuario} />
+                    )}
+
+                    {seccion === "calendario" && (
+                        cargandoEmpleado
+                            ? <p>Cargando información del empleado...</p>
+                            : errorEmpleado
+                                ? <p>{errorEmpleado}</p>
+                                : empleado
+                                    ? <Calendario empleado={empleado} />
+                                    : <p>No se encontró el empleado.</p>
                     )}
 
                 </main>

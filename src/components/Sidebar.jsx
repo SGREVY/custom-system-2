@@ -18,6 +18,10 @@ function Sidebar({ onNavigate }) {
                     Mi perfil
                 </li>
 
+                <li onClick={() => onNavigate("calendario")}>
+                    Calendario
+                </li>
+
                 <li>Usuarios</li>
                 <li>Inventario</li>
                 <li>Compras</li>
