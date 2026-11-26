@@ -172,15 +172,11 @@ function App() {
                         <Perfil usuario={usuario} />
                     )}
 
+                    
                     {/* CALENDARIO */}
                     {seccion === "calendario" && (
                         esRH ? (
-                            <div>
-                                <h1>Calendario general</h1>
-                                <p>
-                                    Consulta los horarios y vacaciones de los empleados.
-                                </p>
-                            </div>
+                            <Calendario />
                         ) : (
                             cargandoEmpleado
                                 ? <p>Cargando información del empleado...</p>
@@ -191,6 +187,7 @@ function App() {
                                         : <p>No se encontró el empleado.</p>
                         )
                     )}
+
 
                     {/* VACACIONES DEL EMPLEADO */}
                     {seccion === "vacaciones" && !esRH && (
